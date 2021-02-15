@@ -1,9 +1,8 @@
-export function showLogin(main, section) {
-    main.appendChild(section);
-}
+let section;
 
-export function setupLogin(section, onLogin) {
-    const form = section.querySelector('form');
+export function setupLogin(targetSection, onLogin) {
+    section = targetSection;
+    const form = targetSection.querySelector('form');
 
     form.addEventListener('submit', (ev => {
         ev.preventDefault();
@@ -31,8 +30,10 @@ export function setupLogin(section, onLogin) {
             const data = await response.json();
             if (response.status == 200) {
                 sessionStorage.setItem('authToken', data.accessToken);
+                sessionStorage.setItem('userId', data._id);
                 onLogin();
             } else {
+                alert(data.message);
                 throw new Error(data.message);
             }
         } catch (err) {

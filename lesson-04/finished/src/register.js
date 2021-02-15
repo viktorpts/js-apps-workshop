@@ -1,10 +1,8 @@
-export function showRegister(main, section) {
-    main.appendChild(section);
-}
+let section;
 
-
-export function setupRegister(section) {
-    const form = section.querySelector('form');
+export function setupRegister(targetSection, onRegister) {
+    section = targetSection;
+    const form = targetSection.querySelector('form');
 
     form.addEventListener('submit', (ev => {
         ev.preventDefault();
@@ -17,7 +15,7 @@ export function setupRegister(section) {
 
     async function onSubmit(data) {
         if (data.password != data.rePass) {
-            return console.error('Passwords don\'t match');
+            return alert('Passwords don\'t match');
         }
 
         const body = JSON.stringify({
@@ -36,8 +34,10 @@ export function setupRegister(section) {
             const data = await response.json();
             if (response.status == 200) {
                 sessionStorage.setItem('authToken', data.accessToken);
-                window.location.pathname = 'index.html';
+                sessionStorage.setItem('userId', data._id);
+                onRegister();
             } else {
+                alert(data.message);
                 throw new Error(data.message);
             }
         } catch (err) {

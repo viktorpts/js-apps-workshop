@@ -96,3 +96,14 @@ h2 {
     display: block;
     box-shadow: 8px 8px 8px 0 rgba(0, 0, 0, 0.2), 12px 12px 20px 0 rgba(0, 0, 0, 0.19);
 }
+
+.controls {
+    padding: 13px 32px;
+    text-align: right;
+}
+
+.controls button {
+    padding: 4px 8px;
+    cursor: pointer;
+    margin: 0 4px;
+}

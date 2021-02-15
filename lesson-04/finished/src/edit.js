@@ -1,6 +1,14 @@
-let section;
+async function getRecipeById(id) {
+    const response = await fetch('http://localhost:3030/data/recipes/' + id);
+    const recipe = await response.json();
 
-export function setupCreate(targetSection, onCreate) {
+    return recipe;
+}
+
+let section;
+let recipeId;
+
+export function setupEdit(targetSection, onEdit) {
     section = targetSection;
     const form = targetSection.querySelector('form');
 
@@ -27,8 +35,8 @@ export function setupCreate(targetSection, onCreate) {
         }
 
         try {
-            const response = await fetch('http://localhost:3030/data/recipes', {
-                method: 'post',
+            const response = await fetch('http://localhost:3030/data/recipes/' + recipeId, {
+                method: 'put',
                 headers: {
                     'Content-Type': 'application/json',
                     'X-Authorization': token
@@ -37,7 +45,7 @@ export function setupCreate(targetSection, onCreate) {
             });
 
             if (response.status == 200) {
-                onCreate();
+                onEdit(recipeId);
             } else {
                 const error = await response.json();
                 throw new Error(error.message);
@@ -47,4 +55,15 @@ export function setupCreate(targetSection, onCreate) {
             console.error(err.message);
         }
     }
+}
+
+
+export async function updateEdit(id) {
+    recipeId = id;
+    const recipe = await getRecipeById(recipeId);
+
+    section.querySelector('[name="name"]').value = recipe.name;
+    section.querySelector('[name="img"]').value = recipe.img;
+    section.querySelector('[name="ingredients"]').value = recipe.ingredients.join('\n');
+    section.querySelector('[name="steps"]').value = recipe.steps.join('\n');
 }
