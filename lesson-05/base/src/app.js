@@ -30,11 +30,7 @@ window.addEventListener('load', async () => {
         createSection: document.getElementById('create'),
         editSection: document.getElementById('edit')
     };
-
-    Object.values(sections).forEach(s => {
-        s.remove();
-        s.style.display = 'block';
-    });
+    document.getElementById('views').remove();
 
     setupCatalog(sections.catalogSection, (recipeId) => {
         loadRecipe(recipeId);
