@@ -71,6 +71,8 @@ window.addEventListener('load', async () => {
     setupNavigation();
 
     function setupNavigation() {
+        document.getElementById('logoutBtn').addEventListener('click', logout);
+
         nav.addEventListener('click', (ev) => {
             if (ev.target.tagName == 'A') {
                 const handler = links[ev.target.id];
@@ -96,7 +98,6 @@ window.addEventListener('load', async () => {
         if (sessionStorage.getItem('authToken') != null) {
             document.getElementById('user').style.display = 'inline-block';
             document.getElementById('guest').style.display = 'none';
-            document.getElementById('logoutBtn').addEventListener('click', logout);
         } else {
             document.getElementById('user').style.display = 'none';
             document.getElementById('guest').style.display = 'inline-block';

@@ -64,3 +64,7 @@ a.active {
 #guest {
     display: none;
 }
+
+#views {
+    display: none;
+}
