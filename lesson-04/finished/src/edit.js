@@ -1,3 +1,6 @@
+import { showDetails } from './details.js';
+
+
 async function getRecipeById(id) {
     const response = await fetch('http://localhost:3030/data/recipes/' + id);
     const recipe = await response.json();
@@ -5,11 +8,15 @@ async function getRecipeById(id) {
     return recipe;
 }
 
+let main;
 let section;
+let setActiveNav;
 let recipeId;
 
-export function setupEdit(targetSection, onEdit) {
+export function setupEdit(targetMain, targetSection, onActiveNav) {
+    main = targetMain;
     section = targetSection;
+    setActiveNav = onActiveNav;
     const form = targetSection.querySelector('form');
 
     form.addEventListener('submit', (ev => {
@@ -45,7 +52,7 @@ export function setupEdit(targetSection, onEdit) {
             });
 
             if (response.status == 200) {
-                onEdit(recipeId);
+                showDetails(recipeId);
             } else {
                 const error = await response.json();
                 throw new Error(error.message);
@@ -58,7 +65,11 @@ export function setupEdit(targetSection, onEdit) {
 }
 
 
-export async function updateEdit(id) {
+export async function showEdit(id) {
+    setActiveNav();
+    main.innerHTML = '';
+    main.appendChild(section);
+
     recipeId = id;
     const recipe = await getRecipeById(recipeId);
 

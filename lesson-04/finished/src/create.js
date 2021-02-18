@@ -1,7 +1,14 @@
-let section;
+import { showDetails } from './details.js';
 
-export function setupCreate(targetSection, onCreate) {
+
+let main;
+let section;
+let setActiveNav;
+
+export function setupCreate(targetMain, targetSection, onActiveNav) {
+    main = targetMain;
     section = targetSection;
+    setActiveNav = onActiveNav;
     const form = targetSection.querySelector('form');
 
     form.addEventListener('submit', (ev => {
@@ -37,7 +44,7 @@ export function setupCreate(targetSection, onCreate) {
             });
 
             if (response.status == 200) {
-                onCreate();
+                showDetails((await response.json())._id);
             } else {
                 const error = await response.json();
                 throw new Error(error.message);
@@ -47,4 +54,10 @@ export function setupCreate(targetSection, onCreate) {
             console.error(err.message);
         }
     }
+}
+
+export function showCreate() {
+    setActiveNav('createLink');
+    main.innerHTML = '';
+    main.appendChild(section);
 }
