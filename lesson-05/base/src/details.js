@@ -1,4 +1,5 @@
 import { e } from './dom.js';
+import { showEdit } from './edit.js';
 
 
 async function getRecipeById(id) {
@@ -50,7 +51,7 @@ function createRecipeCard(recipe) {
     const userId = sessionStorage.getItem('userId');
     if (userId != null && recipe._ownerId == userId) {
         result.appendChild(e('div', { className: 'controls' },
-            e('button', { onClick: () => onEdit(recipe._id) }, '\u270E Edit'),
+            e('button', { onClick: () => showEdit(recipe._id) }, '\u270E Edit'),
             e('button', { onClick: onDelete }, '\u2716 Delete'),
         ));
     }
@@ -65,16 +66,23 @@ function createRecipeCard(recipe) {
     }
 }
 
+let main;
 let section;
-let onEdit;
+let setActiveNav;
 
-export function setupDetails(targetSection, onEditCallback) {
+export function setupDetails(targetMain, targetSection, onActiveNav) {
+    main = targetMain;
     section = targetSection;
-    onEdit = onEditCallback;
+    setActiveNav = onActiveNav;
 }
 
-export async function loadRecipe(id) {
-    section.innerHTML = '';
+export async function showDetails(id) {
+    setActiveNav();
+    section.innerHTML = 'Loading&hellip;';
+    main.innerHTML = '';
+    main.appendChild(section);
+
     const recipe = await getRecipeById(id);
+    section.innerHTML = '';
     section.appendChild(createRecipeCard(recipe));
 }
