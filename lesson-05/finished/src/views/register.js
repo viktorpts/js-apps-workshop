@@ -26,7 +26,7 @@ export function setupRegister(section, nav) {
 
         try {
             await regster(data.email, data.password);
-            nav.updateNav();
+            nav.setUserNav();
             nav.goTo('catalog');
         } catch (err) {
             alert(err.message);

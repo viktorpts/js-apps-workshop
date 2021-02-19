@@ -1,12 +1,12 @@
 import { createNav } from './navigation.js';
 import { logout as apiLogout } from './api/data.js';
 
-import { setupCatalog } from './catalog.js';
-import { setupCreate } from './create.js';
-import { setupLogin } from './login.js';
-import { setupRegister } from './register.js';
-import { setupDetails } from './details.js';
-import { setupEdit } from './edit.js';
+import { setupCatalog } from './views/catalog.js';
+import { setupCreate } from './views/create.js';
+import { setupLogin } from './views/login.js';
+import { setupRegister } from './views/register.js';
+import { setupDetails } from './views/details.js';
+import { setupEdit } from './views/edit.js';
 
 
 window.addEventListener('load', async () => {

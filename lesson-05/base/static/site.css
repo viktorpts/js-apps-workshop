@@ -18,8 +18,26 @@ header {
 }
 
 h1 {
-    font-size: 150%;
+    font-size: 32px;
+    line-height: 32px;
+    vertical-align: bottom;
     display: inline;
+}
+
+h1 img {
+    height: 32px;
+    vertical-align: bottom;
+    margin-right: 8px;
+}
+
+h1 a {
+    font-size: 32px;
+    text-decoration: none;
+    color: black;
+}
+
+h1 a:visited {
+    color: black;
 }
 
 main {

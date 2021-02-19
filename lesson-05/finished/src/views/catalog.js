@@ -15,6 +15,8 @@ export function setupCatalog(section, nav) {
         cards.forEach(c => fragment.appendChild(c));
         section.innerHTML = '';
         section.appendChild(fragment);
+
+        return section;
     }
 
     function createRecipePreview(recipe) {

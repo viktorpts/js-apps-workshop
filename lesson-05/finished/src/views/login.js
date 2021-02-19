@@ -23,7 +23,7 @@ export function setupLogin(section, nav) {
         try {
             console.log('logging in');
             await login(data.email, data.password);
-            nav.updateNav();
+            nav.setUserNav();
             nav.goTo('catalog');
         } catch (err) {
             alert(err.message);
