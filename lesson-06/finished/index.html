@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>My Cookbook</title>
+    <link rel="stylesheet" href="static/site.css">
+    <link rel="stylesheet" href="static/recipe.css">
+    <link rel="stylesheet" href="static/form.css">
+    <script src="/src/app.js" type="module"></script>
+</head>
+
+<body>
+
+    <header>
+        <h1><a href="/"><img src="assets/logo.png">My Cookbook</a></h1>
+        <nav>
+            <a id="catalogLink" href="index.html" class="active">Catalog</a>
+            <div id="user">
+                <a id="createLink" href="create.html">Create Recipe</a>
+                <a id="logoutBtn" href="javascript:void(0)">Logout</a>
+            </div>
+            <div id="guest">
+                <a id="loginLink" href="login.html">Login</a>
+                <a id="registerLink" href="register.html">Register</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+
+    </main>
+
+
+    <div id="views">
+        <section id="home">
+            <div class="hero">
+                <h2>Welcome to My Cookbook</h2>
+            </div>
+            <header class="section-title">Recently added recipes</header>
+            <div class="recent-recipes"></div>
+            <footer class="section-title">
+                <p>Browse all recipes in the <a href="/catalog">Catalog</a></p>
+            </footer>
+        </section>
+
+        <section id="catalog">
+            <p style="color: white">Loading...</p>
+        </section>
+
+        <section id="login">
+            <article>
+                <h2>Login</h2>
+                <form>
+                    <label>E-mail: <input type="text" name="email"></label>
+                    <label>Password: <input type="password" name="password"></label>
+                    <input type="submit" value="Login">
+                </form>
+            </article>
+        </section>
+
+        <section id="register">
+            <article>
+                <h2>Register</h2>
+                <form>
+                    <label>E-mail: <input type="text" name="email"></label>
+                    <label>Password: <input type="password" name="password"></label>
+                    <label>Repeat: <input type="password" name="rePass"></label>
+                    <input type="submit" value="Register">
+                </form>
+            </article>
+        </section>
+
+        <section id="create">
+            <article>
+                <h2>New Recipe</h2>
+                <form>
+                    <label>Name: <input type="text" name="name" placeholder="Recipe name"></label>
+                    <label>Image: <input type="text" name="img" placeholder="Image URL"></label>
+                    <label class="ml">Ingredients: <textarea name="ingredients"
+                            placeholder="Enter ingredients on separate lines"></textarea></label>
+                    <label class="ml">Preparation: <textarea name="steps"
+                            placeholder="Enter preparation steps on separate lines"></textarea></label>
+                    <input type="submit" value="Create Recipe">
+                </form>
+            </article>
+        </section>
+
+        <section id="details">
+            <p style="color: white">Loading...</p>
+        </section>
+
+        <section id="edit">
+            <article>
+                <h2>Edit Recipe</h2>
+                <form>
+                    <label>Name: <input type="text" name="name" placeholder="Recipe name"></label>
+                    <label>Image: <input type="text" name="img" placeholder="Image URL"></label>
+                    <label class="ml">Ingredients: <textarea name="ingredients"
+                            placeholder="Enter ingredients on separate lines"></textarea></label>
+                    <label class="ml">Preparation: <textarea name="steps"
+                            placeholder="Enter preparation steps on separate lines"></textarea></label>
+                    <input type="submit" value="Update Recipe">
+                </form>
+            </article>
+        </section>
+    </div>
+
+</body>
+
+</html>
