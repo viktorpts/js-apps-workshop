@@ -6,13 +6,16 @@ export function setupCatalog(section, nav) {
     return showCatalog;
 
     async function showCatalog() {
-        section.innerHTML = '';
+        section.innerHTML = 'Loading&hellip;';
+    
         const recipes = await getRecipes();
         const cards = recipes.map(createRecipePreview);
-        cards.forEach(c => section.appendChild(c));
     
-        return section;
-    };
+        const fragment = document.createDocumentFragment();
+        cards.forEach(c => fragment.appendChild(c));
+        section.innerHTML = '';
+        section.appendChild(fragment);
+    }
 
     function createRecipePreview(recipe) {
         const result = e('article', { className: 'preview', onClick: () => nav.goTo('details', recipe._id) },
@@ -22,4 +25,5 @@ export function setupCatalog(section, nav) {
     
         return result;
     }
+    
 }

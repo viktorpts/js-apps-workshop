@@ -1,4 +1,4 @@
-export function createNav(main, nav) {
+export function createNav(main, navbar) {
     const views = {};
     const links = {};
 
@@ -7,13 +7,13 @@ export function createNav(main, nav) {
     const navigator = {
         registerView,
         goTo,
-        updateNav
+        setUserNav
     };
 
     return navigator;
 
     function setupNavigation() {
-        nav.addEventListener('click', (ev) => {
+        navbar.addEventListener('click', (ev) => {
             if (ev.target.tagName == 'A') {
                 const handlerName = links[ev.target.id];
                 if (handlerName) {
@@ -34,9 +34,9 @@ export function createNav(main, nav) {
         const execute = setup(section, navigator);
 
         views[name] = (...params) => {
-            [...nav.querySelectorAll('a')].forEach(a => a.classList.remove('active'));
+            [...navbar.querySelectorAll('a')].forEach(a => a.classList.remove('active'));
             if (navId) {
-                nav.querySelector('#' + navId).classList.add('active');
+                navbar.querySelector('#' + navId).classList.add('active');
             }
             return execute(...params);
         };
@@ -45,7 +45,7 @@ export function createNav(main, nav) {
         }
     }
 
-    function updateNav() {
+    function setUserNav() {
         if (sessionStorage.getItem('userToken') != null) {
             document.getElementById('user').style.display = 'inline-block';
             document.getElementById('guest').style.display = 'none';

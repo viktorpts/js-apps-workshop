@@ -6,8 +6,10 @@ export function setupDetails(section, nav) {
     return showDetails;
 
     async function showDetails(id) {
-        section.innerHTML = '';
+        section.innerHTML = 'Loading&hellip;';
+    
         const recipe = await getRecipeById(id);
+        section.innerHTML = '';
         section.appendChild(createRecipeCard(recipe));
 
         return section;
