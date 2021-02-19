@@ -65,6 +65,10 @@ nav a {
     color: black;
 }
 
+nav a:visited {
+    color: black;
+}
+
 nav a:hover {
     background-color: #6c8b47;
     color: white;
@@ -85,4 +89,30 @@ a.active {
 
 #views {
     display: none;
+}
+
+.hero {
+    display: block;
+    width: 850px;
+    margin: 32px auto 32px auto;
+    background-color: #cccccc;
+    box-shadow: 8px 8px 8px 0 rgba(0, 0, 0, 0.2), 12px 12px 20px 0 rgba(0, 0, 0, 0.19);
+    padding: 32px;
+}
+
+.section-title {
+    display: block;
+    width: 850px;
+    margin: 32px auto 32px auto;
+    background-color: #cccccc;
+    box-shadow: 8px 8px 8px 0 rgba(0, 0, 0, 0.2), 12px 12px 20px 0 rgba(0, 0, 0, 0.19);
+    padding: 16px 32px;
+}
+
+a {
+    color: #40522a;
+}
+
+a:visited {
+    color: #40522a;
 }

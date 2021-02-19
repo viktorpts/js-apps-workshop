@@ -1,6 +1,7 @@
 import { createNav } from './navigation.js';
 import { logout as apiLogout } from './api/data.js';
 
+import { setupHome } from './views/home.js';
 import { setupCatalog } from './views/catalog.js';
 import { setupCreate } from './views/create.js';
 import { setupLogin } from './views/login.js';
@@ -14,6 +15,7 @@ window.addEventListener('load', async () => {
     const navbar = document.querySelector('nav');
     const navigation = createNav(main, navbar);
 
+    navigation.registerView('home', document.getElementById('home'), setupHome);
     navigation.registerView('catalog', document.getElementById('catalog'), setupCatalog, 'catalogLink');
     navigation.registerView('details', document.getElementById('details'), setupDetails);
     navigation.registerView('login', document.getElementById('login'), setupLogin, 'loginLink');
@@ -26,7 +28,7 @@ window.addEventListener('load', async () => {
     document.getElementById('logoutBtn').addEventListener('click', logout);
 
     // Start application in catalog view
-    navigation.goTo('catalog');
+    navigation.goTo('home');
 
 
     async function logout() {

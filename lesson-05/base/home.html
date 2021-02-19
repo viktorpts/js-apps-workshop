@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>My Cookbook</title>
+    <link rel="stylesheet" href="static/site.css">
+    <link rel="stylesheet" href="static/recipe.css">
+    <link rel="stylesheet" href="static/form.css">
+    <script src="/src/app.js" type="module"></script>
+</head>
+
+<body>
+
+    <header>
+        <h1><a href="/"><img src="assets/logo.png">My Cookbook</a></h1>
+        <nav>
+            <a id="catalogLink" href="index.html" class="active">Catalog</a>
+            <div id="user">
+                <a id="createLink" href="create.html">Create Recipe</a>
+                <a id="logoutBtn" href="javascript:void(0)">Logout</a>
+            </div>
+            <div id="guest">
+                <a id="loginLink" href="login.html">Login</a>
+                <a id="registerLink" href="register.html">Register</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home">
+            <div class="hero">
+                <h2>Welcome to My Cookbook</h2>
+            </div>
+            <header class="section-title">Recently added recipes</header>
+            <div class="recent-recipes">
+                <article class="recent">
+                    <div class="recent-preview"><img src="assets/fish.jpg"></div>
+                    <div class="recent-title">Roast Trout</div>
+                </article>
+                <div class="recent-space"></div>
+                <article class="recent">
+                    <div class="recent-preview"><img src="assets/roast.jpg"></div>
+                    <div class="recent-title">Grilled Duck Fillet</div>
+                </article>
+                <div class="recent-space"></div>
+                <article class="recent">
+                    <div class="recent-preview"><img src="assets/lasagna.jpg"></div>
+                    <div class="recent-title">Easy Lasagna</div>
+                </article>
+            </div>
+            <footer class="section-title">
+                <p>Browse all recipes in the <a href="/catalog">Catalog</a></p>
+            </footer>
+        </section>
+    </main>
+
+</body>
+
+</html>

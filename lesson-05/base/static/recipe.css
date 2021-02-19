@@ -7,7 +7,7 @@ article {
     border-radius: 16px;
 }
 
-h2 {
+article h2 {
     padding: 16px;
     padding-left: 32px;
     background-color: salmon;
@@ -106,4 +106,52 @@ h2 {
     padding: 4px 8px;
     cursor: pointer;
     margin: 0 4px;
+}
+
+.recent-recipes {
+    width: 850px;
+    margin: auto;
+}
+
+.recent-recipes::after {
+    display: table;
+    clear: both;
+    content: "";
+}
+
+.recent-space {
+    float: left;
+    display: block;
+    width: 50px;
+    height: 200px;
+}
+
+.recent {
+    float: left;
+    display: block;
+    width: 250px;
+    margin: 0;
+}
+
+.recent:hover {
+    cursor: pointer;
+    box-shadow: 16px 16px 8px 0 rgba(0, 0, 0, 0.2), 20px 20px 20px 0 rgba(0, 0, 0, 0.19);
+    background-color: salmon;
+}
+
+.recent-preview {
+    background-color: white;
+    padding: 16px 0;
+    border-radius: 16px 16px 0 0;
+}
+
+.recent-preview>img {
+    max-width: 200px;
+    max-height: 150px;
+    margin: 0 auto;
+    display: block;
+}
+
+.recent-title {
+    padding: 8px 16px;
 }

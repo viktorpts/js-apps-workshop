@@ -6,6 +6,8 @@ const mockData = require('./mock-data.json');
 const host = 'http://localhost:3000';
 const endpoints = {
     recipes: '/data/recipes?select=_id%2Cname%2Cimg',
+    count: '/data/recipes?count',
+    recent: '/data/recipes?select=_id%2Cname%2Cimg&sortBy=_createdOn%20desc',
     recipe_by_id: '/data/recipes/3987279d-0ad4-4afb-8ca9-5b256ae3b298',
     register: '/users/register',
     login: '/users/login',
@@ -49,6 +51,7 @@ describe('E2E tests', function () {
         await context.route(url => {
             return url.hostname != 'localhost';
         }, route => route.abort());
+        await context.route('**' + endpoints.count, route => route.fulfill(json(3)));
 
         page = await context.newPage();
     });
@@ -58,11 +61,27 @@ describe('E2E tests', function () {
         await context.close();
     });
 
-    describe('Catalog', () => {
-        it('loads and renders content from API', async () => {
-            page.route('**' + endpoints.recipes, route => route.fulfill(json(mockData.list)));
+    describe('Home', () => {
+        it('show most recent recipes', async () => {
+            page.route('**' + endpoints.recent, route => route.fulfill(json(mockData.list)));
 
             await page.goto(host);
+
+            const titles = await page.$$eval('article.recent .recent-title', t => t.map(s => s.textContent));
+            expect(titles.length).to.equal(3);
+            expect(titles[0]).to.contains('Easy Lasagna');
+            expect(titles[1]).to.contains('Grilled Duck Fillet');
+            expect(titles[2]).to.contains('Roast Trout');
+        });
+    });
+
+
+    describe('Catalog', () => {
+        it('loads and renders content from API', async () => {
+            page.route('**' + endpoints.recipes + '**', route => route.fulfill(json(mockData.list)));
+
+            await page.goto(host);
+            await page.click('text=Catalog');
 
             const titles = await page.$$eval('article.preview h2', t => t.map(s => s.textContent));
             expect(titles.length).to.equal(3);
@@ -72,7 +91,7 @@ describe('E2E tests', function () {
         });
 
         it('displays recipe details', async () => {
-            page.route('**' + endpoints.recipes, route => route.fulfill(json(mockData.list)));
+            page.route('**' + endpoints.recipes + '**', route => route.fulfill(json(mockData.list)));
             page.route('**' + endpoints.recipe_by_id, route => route.fulfill(json(mockData.details)));
 
             await page.goto(host);
@@ -200,7 +219,7 @@ describe('E2E tests', function () {
         });
 
         it('author sees edit and delete buttons', async () => {
-            page.route('**' + endpoints.recipes, route => route.fulfill(json([mock])));
+            page.route('**' + endpoints.recent, route => route.fulfill(json([mock])));
             const mock = {
                 name: 'Name1',
                 img: '/assests/new.png',
@@ -212,10 +231,14 @@ describe('E2E tests', function () {
             page.route('**' + '/recipes/0002', route => route.fulfill(json(mock)));
 
             await page.goto(host);
-            await page.click('text=Name1');
-
-            await page.waitForResponse('**' + '/recipes/0002');
             await page.waitForSelector('article');
+
+            await Promise.all([
+                page.waitForResponse('**' + '/recipes/0002'),
+                page.click('text=Name1')
+            ]);
+
+            await page.waitForSelector('article div.controls');
 
             const buttons = [
                 await page.isVisible('button:text("Edit")'),
@@ -225,7 +248,7 @@ describe('E2E tests', function () {
         });
 
         it('edit loads correct article data for logged in user', async () => {
-            page.route('**' + endpoints.recipes, route => route.fulfill(json([mock])));
+            page.route('**' + endpoints.recent, route => route.fulfill(json([mock])));
             const mock = {
                 name: 'Name1',
                 img: '/assests/new.png',
@@ -254,7 +277,7 @@ describe('E2E tests', function () {
         });
 
         it('edit makes correct API call for logged in user', async () => {
-            page.route('**' + endpoints.recipes, route => route.fulfill(json([mock])));
+            page.route('**' + endpoints.recent, route => route.fulfill(json([mock])));
             const mock = {
                 name: 'Name1',
                 img: '/assests/new.png',
@@ -288,7 +311,7 @@ describe('E2E tests', function () {
         });
 
         it('delete makes correct API call for logged in user', async () => {
-            page.route('**' + endpoints.recipes, route => route.fulfill(json([mock])));
+            page.route('**' + endpoints.recent, route => route.fulfill(json([mock])));
             const mock = {
                 name: 'Name1',
                 img: '/assests/new.png',
