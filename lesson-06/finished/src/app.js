@@ -7,7 +7,7 @@ import { setupCreate } from './views/create.js';
 import { setupLogin } from './views/login.js';
 import { setupRegister } from './views/register.js';
 import { setupDetails } from './views/details.js';
-import { setupEdit } from './views/edit.js';
+import { setupEdit, setupDeleted } from './views/edit.js';
 
 
 window.addEventListener('load', async () => {
@@ -15,14 +15,14 @@ window.addEventListener('load', async () => {
     const navbar = document.querySelector('nav');
     const navigation = createNav(main, navbar);
 
-    navigation.registerView('home', document.getElementById('home'), setupHome);
-    navigation.registerView('catalog', document.getElementById('catalog'), setupCatalog, 'catalogLink');
-    navigation.registerView('details', document.getElementById('details'), setupDetails);
-    navigation.registerView('login', document.getElementById('login'), setupLogin, 'loginLink');
-    navigation.registerView('register', document.getElementById('register'), setupRegister, 'registerLink');
-    navigation.registerView('create', document.getElementById('create'), setupCreate, 'createLink');
-    navigation.registerView('edit', document.getElementById('edit'), setupEdit);
-    document.getElementById('views').remove();
+    navigation.registerView('home', setupHome);
+    navigation.registerView('catalog', setupCatalog, 'catalogLink');
+    navigation.registerView('details', setupDetails);
+    navigation.registerView('login', setupLogin, 'loginLink');
+    navigation.registerView('register', setupRegister, 'registerLink');
+    navigation.registerView('create', setupCreate, 'createLink');
+    navigation.registerView('edit', setupEdit);
+    navigation.registerView('deleted', setupDeleted);
 
     navigation.setUserNav();
     document.getElementById('logoutBtn').addEventListener('click', logout);
@@ -34,7 +34,7 @@ window.addEventListener('load', async () => {
     async function logout() {
         try {
             await apiLogout();
-            navigation.updateNav();
+            navigation.setUserNav();
             navigation.goTo('catalog');
         } catch (err) {
             alert(err.message);

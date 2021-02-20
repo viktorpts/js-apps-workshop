@@ -1,48 +1,40 @@
-import { e } from '../dom.js';
+import { e, html } from '../dom.js';
 import { getRecipes, getRecipeCount } from '../api/data.js';
 
 
-export function setupCatalog(section, nav) {
+const catalogTemplate = (recipes, goTo, page, pages) => html`
+<section id="catalog">
+    <header class="section-title">${pager(goTo, page, pages)}</header>
+    ${recipes.map(r => recipePreview(r, goTo))}
+    <footer class="section-title">${pager(goTo, page, pages)}</footer>
+</section>`;
+
+const recipePreview = (recipe, goTo) => html`
+<article class="preview" @click=${()=> goTo('details', recipe._id)}>
+    <div class="title">
+        <h2>${recipe.name}</h2>
+    </div>
+    <div class="small"><img src=${recipe.img}></div>
+</article>`;
+
+const pager = (goTo, page, pages) => html`
+Page ${page} of ${pages}
+${page > 1 ? html`<a class="pager" href="/catalog" @click=${e => changePage(e, goTo, page - 1)}>&lt; Prev</a>` : ''}
+${page < pages ? html`<a class="pager" href="/catalog" @click=${e => changePage(e, goTo, page + 1)}>Next &gt;</a>` : ''}`;
+
+function changePage(e, goTo, newPage) {
+    e.preventDefault();
+    goTo('catalog', newPage);
+}
+
+export function setupCatalog(nav) {
     return showCatalog;
 
     async function showCatalog(page = 1) {
-        section.innerHTML = 'Loading&hellip;';
-
         const recipes = await getRecipes(page);
         const count = await getRecipeCount();
         const pages = Math.ceil(count / 5);
-        const cards = recipes.map(createRecipePreview);
 
-        const fragment = document.createDocumentFragment();
-        fragment.appendChild(createPager(page, pages, true));
-        cards.forEach(c => fragment.appendChild(c));
-        fragment.appendChild(createPager(page, pages));
-
-        section.innerHTML = '';
-        section.appendChild(fragment);
-
-        return section;
+        return catalogTemplate(recipes, nav.goTo, page, pages);
     }
-
-    function createPager(page, pages, header) {
-        const type = header ? 'header' : 'footer';
-        const result = e(type, { className: 'section-title' }, `Page ${page} of ${pages}`);
-        if (page > 1) {
-            result.appendChild(e('a', { href: '/catalog', className: 'pager', onClick: (e) => { e.preventDefault(); nav.goTo('catalog', page - 1); } }, '< Prev'));
-        }
-        if (page < pages) {
-            result.appendChild(e('a', { href: '/catalog', className: 'pager', onClick: (e) => { e.preventDefault(); nav.goTo('catalog', page + 1); } }, 'Next >'));
-        }
-        return result;
-    }
-
-    function createRecipePreview(recipe) {
-        const result = e('article', { className: 'preview', onClick: () => nav.goTo('details', recipe._id) },
-            e('div', { className: 'title' }, e('h2', {}, recipe.name)),
-            e('div', { className: 'small' }, e('img', { src: recipe.img })),
-        );
-
-        return result;
-    }
-
 }

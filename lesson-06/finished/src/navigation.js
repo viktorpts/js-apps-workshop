@@ -1,13 +1,19 @@
+import { render } from './dom.js';
+
+
 export function createNav(main, navbar) {
     const views = {};
     const links = {};
+    const forms = {};
 
     setupNavigation();
+    setupForms();
 
     const navigator = {
         registerView,
         goTo,
-        setUserNav
+        setUserNav,
+        registerForm
     };
 
     return navigator;
@@ -25,13 +31,12 @@ export function createNav(main, navbar) {
     }
 
     async function goTo(name, ...params) {
-        main.innerHTML = '';
         const result = await views[name](...params);
-        main.appendChild(result);
+        render(result, main);
     }
 
-    function registerView(name, section, setup, navId) {
-        const execute = setup(section, navigator);
+    function registerView(name, setup, navId) {
+        const execute = setup(navigator);
 
         views[name] = (...params) => {
             [...navbar.querySelectorAll('a')].forEach(a => a.classList.remove('active'));
@@ -53,6 +58,28 @@ export function createNav(main, navbar) {
             document.getElementById('user').style.display = 'none';
             document.getElementById('guest').style.display = 'inline-block';
         }
+    }
+
+    function setupForms() {
+        document.body.addEventListener('submit', createFormData);
+        document.body.addEventListener('formdata', onFormData);
+    }
+
+    function registerForm(name, handler) {
+        forms[name] = handler;
+    }
+
+    function createFormData(ev) {
+        if (forms.hasOwnProperty(ev.target.id)) {
+            ev.preventDefault();
+            new FormData(ev.target);
+        }
+    }
+
+    function onFormData(ev) {
+        const body = [...ev.formData.entries()].reduce((p, [k, v]) => Object.assign(p, { [k]: v }), {});
+        const handler = forms[ev.target.id];
+        handler(body);
     }
 }
 

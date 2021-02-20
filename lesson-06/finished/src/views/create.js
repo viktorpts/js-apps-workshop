@@ -1,22 +1,29 @@
+import { html } from '../dom.js';
 import { createRecipe } from '../api/data.js';
 
 
-export function setupCreate(section, nav) {
-    const form = section.querySelector('form');
+const createTemplate = () => html`
+<section id="create">
+    <article>
+        <h2>New Recipe</h2>
+        <form id="createForm">
+            <label>Name: <input type="text" name="name" placeholder="Recipe name"></label>
+            <label>Image: <input type="text" name="img" placeholder="Image URL"></label>
+            <label class="ml">Ingredients: <textarea name="ingredients"
+                    placeholder="Enter ingredients on separate lines"></textarea></label>
+            <label class="ml">Preparation: <textarea name="steps"
+                    placeholder="Enter preparation steps on separate lines"></textarea></label>
+            <input type="submit" value="Create Recipe">
+        </form>
+    </article>
+</section>`;
 
-    form.addEventListener('submit', (ev => {
-        ev.preventDefault();
-        new FormData(ev.target);
-    }));
-
-    form.addEventListener('formdata', (ev => {
-        onSubmit([...ev.formData.entries()].reduce((p, [k, v]) => Object.assign(p, { [k]: v }), {}));
-    }));
-
+export function setupCreate(nav) {
+    nav.registerForm('createForm', onSubmit);
     return showCreate;
 
     function showCreate() {
-        return section;
+        return createTemplate();
     }
 
     async function onSubmit(data) {

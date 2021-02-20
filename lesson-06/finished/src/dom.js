@@ -1,3 +1,11 @@
+import {html, render} from 'https://unpkg.com/lit-html?module';
+
+
+export {
+    html,
+    render
+};
+
 export function e(type, attributes, ...content) {
     const result = document.createElement(type);
 

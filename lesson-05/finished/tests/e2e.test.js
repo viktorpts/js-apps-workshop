@@ -48,9 +48,11 @@ describe('E2E tests', function () {
 
         // block intensive resources and external calls (page routes take precedence)
         await context.route('**/*.{png,jpg,jpeg}', route => route.abort());
+		/*
         await context.route(url => {
             return url.hostname != 'localhost';
         }, route => route.abort());
+		*/
         await context.route('**' + endpoints.count, route => route.fulfill(json(3)));
 
         page = await context.newPage();

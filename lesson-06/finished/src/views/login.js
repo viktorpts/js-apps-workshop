@@ -1,27 +1,30 @@
+import { html } from '../dom.js';
 import { login } from '../api/data.js';
 
 
-export function setupLogin(section, nav) {
-    const form = section.querySelector('form');
+const loginTemplate = () => html`
+<section id="login">
+    <article>
+        <h2>Login</h2>
+        <form id="loginForm">
+            <label>E-mail: <input type="text" name="email"></label>
+            <label>Password: <input type="password" name="password"></label>
+            <input type="submit" value="Login">
+        </form>
+    </article>
+</section>`;
 
-    form.addEventListener('submit', (ev => {
-        ev.preventDefault();
-        new FormData(ev.target);
-    }));
 
-    form.addEventListener('formdata', (ev => {
-        onSubmit([...ev.formData.entries()].reduce((p, [k, v]) => Object.assign(p, { [k]: v }), {}));
-    }));
-
+export function setupLogin(nav) {
+    nav.registerForm('loginForm', onSubmit);
     return showLogin;
 
     function showLogin() {
-        return section;
+        return loginTemplate();
     }
 
     async function onSubmit(data) {
         try {
-            console.log('logging in');
             await login(data.email, data.password);
             nav.setUserNav();
             nav.goTo('catalog');

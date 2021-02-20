@@ -1,42 +1,39 @@
-import { e } from '../dom.js';
+import { html } from '../dom.js';
 import { getRecent } from '../api/data.js';
 
 
-export function setupHome(section, nav) {
-    const container = section.querySelector('.recent-recipes');
+const homeTemplate = (recentRecipes, goTo) => html`
+<section id="home">
+    <div class="hero">
+        <h2>Welcome to My Cookbook</h2>
+    </div>
+    <header class="section-title">Recently added recipes</header>
+    <div class="recent-recipes">
+        ${recentRecipes[0] ? recentRecipe(recentRecipes[0], goTo) : ''}
+        ${spacer()}
+        ${recentRecipes[1] ? recentRecipe(recentRecipes[1], goTo) : ''}
+        ${spacer()}
+        ${recentRecipes[2] ? recentRecipe(recentRecipes[2], goTo) : ''}
+    </div>
+    <footer class="section-title">
+        <p>Browse all recipes in the <a href="/catalog">Catalog</a></p>
+    </footer>
+</section>`;
+
+const recentRecipe = (recipe, goTo) => html`
+<article class="recent" @click=${() => goTo('details', recipe._id)}>
+    <div class="recent-preview"><img src=${recipe.img}></div>
+    <div class="recent-title">${recipe.name}</div>
+</article>`;
+
+const spacer = () => html`<div class="recent-space"></div>`;
+
+export function setupHome(nav) {
     return showHome;
 
     async function showHome() {
-        container.innerHTML = 'Loading&hellip;';
-
         const recipes = await getRecent();
-        const cards = recipes.map(createRecipePreview);
 
-        const fragment = document.createDocumentFragment();
-
-        while (cards.length > 0) {
-            fragment.appendChild(cards.shift());
-            if (cards.length > 0) {
-                fragment.appendChild(createSpacer());
-            }
-        }
-        container.innerHTML = '';
-        container.appendChild(fragment);
-
-        return section;
+        return homeTemplate(recipes, nav.goTo);
     }
-
-    function createRecipePreview(recipe) {
-        const result = e('article', { className: 'recent', onClick: () => nav.goTo('details', recipe._id) },
-            e('div', { className: 'recent-preview' }, e('img', { src: recipe.img })),
-            e('div', { className: 'recent-title' }, recipe.name),
-        );
-
-        return result;
-    }
-
-    function createSpacer() {
-        return e('div', { className: 'recent-space' });
-    }
-
 }
