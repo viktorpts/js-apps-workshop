@@ -1,4 +1,5 @@
 import { render, html, until } from '../dom.js';
+import { getCommentsByRecipeId, createComment } from '../api/data.js';
 
 
 const commentsTemplate = (recipe, commentForm, comments) => html`
@@ -29,14 +30,14 @@ const commentsList = (comments) => html`
 
 const comment = (data) => html`
 <li class="comment">
-    <header>${data.author}</header>
+    <header>${data.author.email}</header>
     <p>${data.content}</p>
 </li>`;
 
 export function showComments(recipe, nav) {
     let formActive = false;
     nav.registerForm('commentForm', onSubmit);
-    const commentsPromise = getComments();
+    const commentsPromise = getCommentsByRecipeId(recipe._id);
     const result = document.createElement('div');
     renderTemplate(commentsPromise);
 
@@ -54,10 +55,15 @@ export function showComments(recipe, nav) {
     async function onSubmit(data) {
         toggleForm();
         const comments = await commentsPromise;
-        comments.unshift({
-            author: sessionStorage.getItem('email'),
-            content: data.content
-        });
+
+        const comment = {
+            content: data.content,
+            recipeId: recipe._id
+        };
+
+        const result = await createComment(comment);
+
+        comments.unshift(result);
         renderTemplate(comments);
     }
 }
@@ -69,28 +75,4 @@ function createForm(formActive, toggleForm) {
     } else {
         return commentFormTemplate(formActive, toggleForm);
     }
-}
-
-
-/// TEMP
-async function getComments() {
-    await new Promise(r => setTimeout(r, 1000));
-    return [
-        {
-            author: 'peter',
-            content: 'a'
-        },
-        {
-            author: 'john',
-            content: 'b'
-        },
-        {
-            author: 'george',
-            content: 'c'
-        },
-        {
-            author: 'mary',
-            content: 'd'
-        }
-    ];
 }

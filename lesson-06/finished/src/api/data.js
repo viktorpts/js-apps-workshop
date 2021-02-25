@@ -7,7 +7,9 @@ const endpoints = {
     RECIPE_COUNT: 'data/recipes?count',
     RECENT_RECIPES: 'data/recipes?select=' + encodeURIComponent('_id,name,img') + '&sortBy=' + encodeURIComponent('_createdOn desc'),
     RECIPES: 'data/recipes',
-    RECIPE_BY_ID: 'data/recipes/'
+    RECIPE_BY_ID: 'data/recipes/',
+    COMMENTS: 'data/comments',
+    COMMENTS_BY_RECIPE_ID: 'data/comments?where=' + encodeURIComponent('recipeId='),
 };
 
 export const login = api.login.bind(api);
@@ -40,4 +42,12 @@ export async function editRecipe(id, recipe) {
 
 export async function deleteRecipeById(id) {
     return await api.delete(endpoints.RECIPE_BY_ID + id);
+}
+
+export async function getCommentsByRecipeId(recipeId) {
+    return await api.get(endpoints.COMMENTS_BY_RECIPE_ID + encodeURIComponent(`"${recipeId}"`) + '&load=' + encodeURIComponent('author=_ownerId:users'));
+}
+
+export async function createComment(comment) {
+    return await api.post(endpoints.COMMENTS, comment);
 }
