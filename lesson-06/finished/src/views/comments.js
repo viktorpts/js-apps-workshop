@@ -13,13 +13,13 @@ ${commentForm}
 const commentFormTemplate = (active, toggleForm) => html`
 <article class="new-comment">
     ${active
-    ? html`
+        ? html`
     <h2>New comment</h2>
     <form id="commentForm">
         <textarea name="content" placeholder="Type comment"></textarea>
         <input type="submit" value="Add comment">
     </form>`
-    : html`<button @click=${toggleForm}>Add comment</button>`}
+        : html`<form><button class="button" @click=${toggleForm}>Add comment</button></form>`}
 </article>`;
 
 const commentsList = (comments) => html`
@@ -33,25 +33,43 @@ const comment = (data) => html`
     <p>${data.content}</p>
 </li>`;
 
-export function showComments(recipe) {
+export function showComments(recipe, nav) {
     let formActive = false;
-    const comments = getComments();
+    nav.registerForm('commentForm', onSubmit);
+    const commentsPromise = getComments();
     const result = document.createElement('div');
-    renderTemplate();
+    renderTemplate(commentsPromise);
 
     return result;
 
-    function renderTemplate() {
-        render(commentsTemplate(recipe, commentFormTemplate(formActive, toggleForm), comments), result);
+    function renderTemplate(comments) {
+        render(commentsTemplate(recipe, createForm(formActive, toggleForm), comments), result);
     }
 
     function toggleForm() {
         formActive = !formActive;
-        renderTemplate();
+        renderTemplate(commentsPromise);
+    }
+
+    async function onSubmit(data) {
+        toggleForm();
+        const comments = await commentsPromise;
+        comments.unshift({
+            author: sessionStorage.getItem('email'),
+            content: data.content
+        });
+        renderTemplate(comments);
     }
 }
 
-
+function createForm(formActive, toggleForm) {
+    const userId = sessionStorage.getItem('userId');
+    if (userId == null) {
+        return '';
+    } else {
+        return commentFormTemplate(formActive, toggleForm);
+    }
+}
 
 
 /// TEMP

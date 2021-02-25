@@ -3,10 +3,10 @@ import { getRecipeById, deleteRecipeById } from '../api/data.js';
 import { showComments } from './comments.js';
 
 
-const detailsTemplate = (recipe, isOwner, goTo, onDelete) => html`
+const detailsTemplate = (recipe, isOwner, nav, onDelete) => html`
 <section id="details">
-    ${recipeCard(recipe, isOwner, goTo, onDelete)}
-    ${showComments(recipe)}
+    ${recipeCard(recipe, isOwner, nav.goTo, onDelete)}
+    ${showComments(recipe, nav)}
 </section>`;
 
 const recipeCard = (recipe, isOwner, goTo, onDelete) => html`
@@ -44,7 +44,7 @@ export function setupDetails(nav) {
         const userId = sessionStorage.getItem('userId');
         const isOwner = userId != null && recipe._ownerId == userId;
 
-        return detailsTemplate(recipe, isOwner, nav.goTo, () => onDelete(recipe));
+        return detailsTemplate(recipe, isOwner, nav, () => onDelete(recipe));
     }
 
     async function onDelete(recipe) {

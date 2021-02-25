@@ -77,9 +77,11 @@ export function createNav(main, navbar) {
     }
 
     function onFormData(ev) {
-        const body = [...ev.formData.entries()].reduce((p, [k, v]) => Object.assign(p, { [k]: v }), {});
-        const handler = forms[ev.target.id];
-        handler(body);
+        if (forms.hasOwnProperty(ev.target.id)) {
+            const body = [...ev.formData.entries()].reduce((p, [k, v]) => Object.assign(p, { [k]: v }), {});
+            const handler = forms[ev.target.id];
+            handler(body);
+        }
     }
 }
 

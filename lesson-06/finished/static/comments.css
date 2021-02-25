@@ -26,3 +26,19 @@
     background-color: #cccccc;
     padding: 8px 16px;
 }
+
+.button {
+    display: block;
+    border: none;
+    margin: auto;
+    background-color: salmon;
+    padding: 8px 16px;
+    text-decoration: none;
+    color: black;
+}
+
+.button:hover {
+    background-color: #6c8b47;
+    color: white;
+    cursor: pointer;
+}
