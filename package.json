@@ -11,7 +11,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-	"dev": "http-server lesson-06/finished -a localhost -p 3000 -P http://localhost:3000?"
+	"dev": "http-server lesson-06/finished -a localhost -p 3000 -P http://localhost:3000?",
+	"server": "server.bat"
   },
   "repository": {
     "type": "git",

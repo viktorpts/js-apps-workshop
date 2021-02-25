@@ -11,14 +11,14 @@ label {
     line-height: 48px;
 }
 
-input[type="text"], input[type="password"], textarea {
+input[type="text"], input[type="password"], .ml textarea {
     position: absolute;
     right: 0px;
     width: 500px;
     padding: 8px;
 }
 
-textarea {
+.ml textarea {
     height: 300px;
     resize: none;
 }

@@ -11,7 +11,7 @@ body {
     margin: 0 auto 0 auto;
 }
 
-header {
+body>header {
     padding: 32px;
     background-color: #cccccc;
     position: relative;
