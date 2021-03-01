@@ -20,7 +20,7 @@ async function onSubmit(data) {
     });
 
     try {
-        const response = await fetch('http://localhost:5000/users/register', {
+        const response = await fetch('http://localhost:3030/users/register', {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json'
