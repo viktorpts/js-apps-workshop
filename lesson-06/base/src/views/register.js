@@ -6,11 +6,8 @@ export function setupRegister(section, nav) {
 
     form.addEventListener('submit', (ev => {
         ev.preventDefault();
-        new FormData(ev.target);
-    }));
-
-    form.addEventListener('formdata', (ev => {
-        onSubmit([...ev.formData.entries()].reduce((p, [k, v]) => Object.assign(p, { [k]: v }), {}));
+        const formData = new FormData(ev.target);
+        onSubmit([...formData.entries()].reduce((p, [k, v]) => Object.assign(p, { [k]: v }), {}));
     }));
 
     return showRegister;

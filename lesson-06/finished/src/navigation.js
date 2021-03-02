@@ -61,25 +61,19 @@ export function createNav(main, navbar) {
     }
 
     function setupForms() {
-        document.body.addEventListener('submit', createFormData);
-        document.body.addEventListener('formdata', onFormData);
+        document.body.addEventListener('submit', onSubmit);
     }
 
     function registerForm(name, handler) {
         forms[name] = handler;
     }
 
-    function createFormData(ev) {
-        if (forms.hasOwnProperty(ev.target.id)) {
+    function onSubmit(ev) {
+        const handler = forms[ev.target.id];
+        if (typeof handler == 'function') {
             ev.preventDefault();
-            new FormData(ev.target);
-        }
-    }
-
-    function onFormData(ev) {
-        if (forms.hasOwnProperty(ev.target.id)) {
-            const body = [...ev.formData.entries()].reduce((p, [k, v]) => Object.assign(p, { [k]: v }), {});
-            const handler = forms[ev.target.id];
+            const formData = new FormData(ev.target);
+            const body = [...formData.entries()].reduce((p, [k, v]) => Object.assign(p, { [k]: v }), {});
             handler(body);
         }
     }
