@@ -50,6 +50,10 @@ export default function createApi(beginRequest, endRequest) {
             } catch (err) {
                 if (err instanceof SyntaxError) {
                     return response;
+                } else if(err.message == 'Invalid access token') {
+                    console.log('Invalid session, resetting storage');
+                    sessionStorage.clear();
+                    window.location.pathname = '/';
                 } else {
                     throw err;
                 }
