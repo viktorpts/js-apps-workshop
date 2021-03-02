@@ -56,7 +56,7 @@ window.addEventListener('load', async () => {
     cards.forEach(c => main.appendChild(c));
 });
 
-export function e(type, attributes, ...content) {
+function e(type, attributes, ...content) {
     const result = document.createElement(type);
 
     for (let [attr, value] of Object.entries(attributes || {})) {
