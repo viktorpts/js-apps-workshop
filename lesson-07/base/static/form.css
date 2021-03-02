@@ -1,0 +1,44 @@
+form {
+    padding: 32px;
+}
+
+label {
+    display: block;
+    position: relative;
+    margin: 16px 0;
+    text-align: right;
+    padding-right: 520px;
+    line-height: 48px;
+}
+
+input[type="text"], input[type="password"], .ml textarea {
+    position: absolute;
+    right: 0px;
+    width: 500px;
+    padding: 8px;
+}
+
+.ml textarea {
+    height: 300px;
+    resize: none;
+}
+
+.ml {
+    height: 300px;
+}
+
+input[type="submit"] {
+    display: block;
+    border: none;
+    margin: auto;
+    background-color: salmon;
+    padding: 8px 16px;
+    text-decoration: none;
+    color: black;
+}
+
+input[type="submit"]:hover {
+    background-color: #6c8b47;
+    color: white;
+    cursor: pointer;
+}

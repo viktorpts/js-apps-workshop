@@ -1,0 +1,44 @@
+.new-comment textarea {
+    resize: none;
+    width: 100%;
+    height: 200px;
+    margin-bottom: 32px;
+}
+
+.comments li {
+    display: block;
+    width: 720px;
+    margin: 32px auto 32px auto;
+    box-shadow: 8px 8px 8px 0 rgba(0, 0, 0, 0.2), 12px 12px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 16px;
+}
+
+.comment {
+    background-color: white;
+}
+
+.comment p {
+    padding: 16px;
+}
+
+.comment header {
+    border-radius: 16px 16px 0 0;
+    background-color: #cccccc;
+    padding: 8px 16px;
+}
+
+.button {
+    display: block;
+    border: none;
+    margin: auto;
+    background-color: salmon;
+    padding: 8px 16px;
+    text-decoration: none;
+    color: black;
+}
+
+.button:hover {
+    background-color: #6c8b47;
+    color: white;
+    cursor: pointer;
+}

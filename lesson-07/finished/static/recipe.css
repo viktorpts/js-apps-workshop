@@ -1,0 +1,161 @@
+article {
+    display: block;
+    width: 720px;
+    margin: 32px auto 32px auto;
+    background-color: #cccccc;
+    box-shadow: 8px 8px 8px 0 rgba(0, 0, 0, 0.2), 12px 12px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 16px;
+}
+
+article h2 {
+    padding: 16px;
+    padding-left: 32px;
+    background-color: salmon;
+    border-radius: 16px 16px 0 0;
+}
+
+.band {
+    background-color: white;
+    padding: 32px;
+}
+
+.band::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.thumb {
+    width: 200px;
+    float: left;
+}
+
+.thumb>img {
+    max-width: 200px;
+    box-shadow: 8px 8px 8px 0 rgba(0, 0, 0, 0.2), 12px 12px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.ingredients {
+    float: left;
+    margin-left: 32px;
+}
+
+.ingredients>ul {
+    margin-left: 32px;
+}
+
+.ingredients>ul>li {
+    margin-top: 16px;
+}
+
+.description {
+    padding: 32px;
+}
+
+.description>p {
+    margin: 16px 0 16px 32px;
+}
+
+.preview {
+    vertical-align: middle;
+}
+
+.preview::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.preview:hover {
+    background-color: salmon;
+    cursor: pointer;
+    box-shadow: 16px 16px 8px 0 rgba(0, 0, 0, 0.2), 20px 20px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.title {
+    float: left;
+    width: 420px;
+}
+
+.title h2 {
+    background-color: transparent;
+}
+
+.small {
+    float: left;
+    background-color: white;
+    width: 300px;
+    text-align: center;
+    border-radius: 0 16px 16px 0;
+}
+
+.small>img {
+    max-width: 200px;
+    max-height: 150px;
+    margin: 16px auto;
+    display: block;
+    box-shadow: 8px 8px 8px 0 rgba(0, 0, 0, 0.2), 12px 12px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.controls {
+    padding: 13px 32px;
+    text-align: right;
+}
+
+.controls button {
+    padding: 4px 8px;
+    cursor: pointer;
+    margin: 0 4px;
+}
+
+.recent-recipes {
+    width: 850px;
+    margin: auto;
+}
+
+.recent-recipes::after {
+    display: table;
+    clear: both;
+    content: "";
+}
+
+.recent-space {
+    float: left;
+    display: block;
+    width: 50px;
+    height: 200px;
+}
+
+.recent {
+    float: left;
+    display: block;
+    width: 250px;
+    margin: 0;
+}
+
+.recent:hover {
+    cursor: pointer;
+    box-shadow: 16px 16px 8px 0 rgba(0, 0, 0, 0.2), 20px 20px 20px 0 rgba(0, 0, 0, 0.19);
+    background-color: salmon;
+}
+
+.recent-preview {
+    background-color: white;
+    padding: 16px 0;
+    border-radius: 16px 16px 0 0;
+}
+
+.recent-preview>img {
+    max-width: 200px;
+    max-height: 150px;
+    margin: 0 auto;
+    display: block;
+}
+
+.recent-title {
+    padding: 8px 16px;
+}
+
+.card, .card:visited {
+    color: black;
+}
