@@ -17,11 +17,19 @@ export const login = api.login.bind(api);
 export const regster = api.register.bind(api);
 export const logout = api.logout.bind(api);
 
-export async function getRecipes(page = 1) {
-    return await api.get(endpoints.RECIPE_LIST + `&offset=${(page - 1) * 5}&pageSize=5`);
+export async function getRecipes(page = 1, search) {
+    let url = endpoints.RECIPE_LIST + `&offset=${(page - 1) * 5}&pageSize=5`;
+    if (search) {
+        url += '&where=' + encodeURIComponent(`name like "${search}"`);
+    }
+    return await api.get(url);
 }
 
-export async function getRecipeCount() {
+export async function getRecipeCount(search) {
+    let url = endpoints.RECIPE_COUNT;
+    if (search) {
+        url += '&where=' + encodeURIComponent(`name like "${search}"`);
+    }
     return await api.get(endpoints.RECIPE_COUNT);
 }
 
