@@ -32,6 +32,8 @@ window.addEventListener('load', async () => {
     page('/index.html', views.homeView);
     page('/catalog', views.catalogView);
     page('/catalog/:page', views.catalogView);
+    navigation.registerForm('searchForm', (data) => page.redirect('/catalog?search=' + data.search) );
+
     page('/details/:id', views.detailsView);
 
     page('/login', views.loginView);

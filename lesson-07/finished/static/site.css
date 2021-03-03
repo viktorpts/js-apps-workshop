@@ -138,3 +138,17 @@ a:visited {
     background-color: #6c8b47;
     color: white;
 }
+
+#searchForm {
+    padding: 8px 16px;
+    text-align: center;
+}
+
+#searchForm input[type="text"] {
+    position: static;
+    text-align: left;
+}
+
+#searchForm input[type="submit"] {
+    display: inline-block;
+}
