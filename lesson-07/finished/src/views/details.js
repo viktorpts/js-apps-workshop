@@ -3,13 +3,13 @@ import { getRecipeById, deleteRecipeById } from '../api/data.js';
 import { showComments } from './comments.js';
 
 
-const detailsTemplate = (recipe, isOwner, nav, onDelete) => html`
+const detailsTemplate = (recipe, isOwner, onDelete) => html`
 <section id="details">
-    ${recipeCard(recipe, isOwner, nav.goTo, onDelete)}
-    ${showComments(recipe, nav)}
+    ${recipeCard(recipe, isOwner, onDelete)}
+    ${showComments(recipe)}
 </section>`;
 
-const recipeCard = (recipe, isOwner, goTo, onDelete) => html`
+const recipeCard = (recipe, isOwner, onDelete) => html`
 <article>
     <h2>${recipe.name}</h2>
     <div class="band">
@@ -35,7 +35,7 @@ const recipeCard = (recipe, isOwner, goTo, onDelete) => html`
 </article>`;
 
 
-export function setupDetails(nav) {
+export function setupDetails() {
     return showDetails;
 
     async function showDetails(context) {
@@ -45,15 +45,15 @@ export function setupDetails(nav) {
         const userId = sessionStorage.getItem('userId');
         const isOwner = userId != null && recipe._ownerId == userId;
 
-        return detailsTemplate(recipe, isOwner, nav, () => onDelete(recipe));
+        return detailsTemplate(recipe, isOwner, () => onDelete(recipe, () => context.page.redirect('/deleted/' + id)));
     }
 
-    async function onDelete(recipe) {
+    async function onDelete(recipe, onSuccess) {
         const confirmed = confirm(`Are you sure you want to delete ${recipe.name}?`);
         if (confirmed) {
             try {
                 await deleteRecipeById(recipe._id);
-                nav.goTo('deleted');
+                onSuccess();
             } catch (err) {
                 alert(err.message);
             }

@@ -11,12 +11,12 @@ ${commentForm}
     ${until((async () => commentsList(await comments))(), 'Loading comments...')}
 </div>`;
 
-const commentFormTemplate = (active, toggleForm) => html`
+const commentFormTemplate = (active, toggleForm, onSubmit) => html`
 <article class="new-comment">
     ${active
         ? html`
     <h2>New comment</h2>
-    <form id="commentForm">
+    <form id="commentForm" @submit=${onSubmit}>
         <textarea name="content" placeholder="Type comment"></textarea>
         <input type="submit" value="Add comment">
     </form>`
@@ -34,17 +34,17 @@ const comment = (data) => html`
     <p>${data.content}</p>
 </li>`;
 
-export function showComments(recipe, nav) {
+export function showComments(recipe) {
+    const recipeId = recipe._id;
     let formActive = false;
-    nav.registerForm('commentForm', onSubmit);
-    const commentsPromise = getCommentsByRecipeId(recipe._id);
+    const commentsPromise = getCommentsByRecipeId(recipeId);
     const result = document.createElement('div');
     renderTemplate(commentsPromise);
 
     return result;
 
     function renderTemplate(comments) {
-        render(commentsTemplate(recipe, createForm(formActive, toggleForm), comments), result);
+        render(commentsTemplate(recipe, createForm(formActive, toggleForm, onSubmit), comments), result);
     }
 
     function toggleForm() {
@@ -52,14 +52,18 @@ export function showComments(recipe, nav) {
         renderTemplate(commentsPromise);
     }
 
-    async function onSubmit(data) {
+    async function onSubmit(event) {
+        event.preventDefault();
+        const data = new FormData(event.target);
+
         toggleForm();
         const comments = await commentsPromise;
 
         const comment = {
-            content: data.content,
-            recipeId: recipe._id
+            content: data.get('content'),
+            recipeId
         };
+        console.log(comment);
 
         const result = await createComment(comment);
 
@@ -68,11 +72,11 @@ export function showComments(recipe, nav) {
     }
 }
 
-function createForm(formActive, toggleForm) {
+function createForm(formActive, toggleForm, onSubmit) {
     const userId = sessionStorage.getItem('userId');
     if (userId == null) {
         return '';
     } else {
-        return commentFormTemplate(formActive, toggleForm);
+        return commentFormTemplate(formActive, toggleForm, onSubmit);
     }
 }

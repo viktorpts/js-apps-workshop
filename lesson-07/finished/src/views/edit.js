@@ -7,6 +7,7 @@ const editTemplate = (recipe) => html`
     <article>
         <h2>Edit Recipe</h2>
         <form id="editForm">
+        <input type="hidden" name="_id" value=${recipe._id}>
             <label>Name: <input type="text" name="name" placeholder="Recipe name" .value=${recipe.name}></label>
             <label>Image: <input type="text" name="img" placeholder="Image URL" .value=${recipe.img}></label>
             <label class="ml">Ingredients: <textarea name="ingredients"
@@ -20,31 +21,31 @@ const editTemplate = (recipe) => html`
     </article>
 </section>`;
 
-export function setupEdit(nav) {
+export function setupEdit() {
     return showEdit;
     
     async function showEdit(context) {
         const recipeId = context.params.id;
-        nav.registerForm('editForm', onSubmit);
         const recipe = await getRecipeById(recipeId);
 
         return editTemplate(recipe);
+    }
+}
 
-        async function onSubmit(data) {
-            const body = {
-                name: data.name,
-                img: data.img,
-                ingredients: data.ingredients.split('\n').map(l => l.trim()).filter(l => l != ''),
-                steps: data.steps.split('\n').map(l => l.trim()).filter(l => l != '')
-            };
+export async function onEditSubmit(data, onSuccess) {
+    const recipeId = data._id;
+    const body = {
+        name: data.name,
+        img: data.img,
+        ingredients: data.ingredients.split('\n').map(l => l.trim()).filter(l => l != ''),
+        steps: data.steps.split('\n').map(l => l.trim()).filter(l => l != '')
+    };
 
-            try {
-                await editRecipe(recipeId, body);
-                context.page.redirect('/details/' + recipeId);
-            } catch (err) {
-                alert(err.message);
-            }
-        }
+    try {
+        await editRecipe(recipeId, body);
+        onSuccess(recipeId);
+    } catch (err) {
+        alert(err.message);
     }
 }
 

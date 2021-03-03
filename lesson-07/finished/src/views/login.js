@@ -15,21 +15,19 @@ const loginTemplate = () => html`
 </section>`;
 
 
-export function setupLogin(nav) {
-    nav.registerForm('loginForm', onSubmit);
+export function setupLogin() {
     return showLogin;
 
-    function showLogin(context) {
+    function showLogin() {
         return loginTemplate();
     }
+}
 
-    async function onSubmit(data) {
-        try {
-            await login(data.email, data.password);
-            nav.setUserNav();
-            nav.goTo('catalog');
-        } catch (err) {
-            alert(err.message);
-        }
+export async function onLoginSubmit(data, onSuccess) {
+    try {
+        await login(data.email, data.password);
+        onSuccess();
+    } catch (err) {
+        alert(err.message);
     }
 }

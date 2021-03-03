@@ -18,28 +18,26 @@ const createTemplate = () => html`
     </article>
 </section>`;
 
-export function setupCreate(nav) {
-    nav.registerForm('createForm', onSubmit);
+export function setupCreate() {
     return showCreate;
 
     function showCreate() {
         return createTemplate();
     }
-
-    async function onSubmit(data) {
-        const body = {
-            name: data.name,
-            img: data.img,
-            ingredients: data.ingredients.split('\n').map(l => l.trim()).filter(l => l != ''),
-            steps: data.steps.split('\n').map(l => l.trim()).filter(l => l != '')
-        };
-
-        try {
-            const result = await createRecipe(body);
-            nav.goTo('details', result._id);
-        } catch (err) {
-            alert(err.message);
-        }
-    }
 }
 
+export async function onCreateSubmit(data, onSuccess) {
+    const body = {
+        name: data.name,
+        img: data.img,
+        ingredients: data.ingredients.split('\n').map(l => l.trim()).filter(l => l != ''),
+        steps: data.steps.split('\n').map(l => l.trim()).filter(l => l != '')
+    };
+
+    try {
+        const result = await createRecipe(body);
+        onSuccess(result._id);
+    } catch (err) {
+        alert(err.message);
+    }
+}

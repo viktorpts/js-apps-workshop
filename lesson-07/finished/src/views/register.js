@@ -16,25 +16,23 @@ const registerTemplate = () => html`
 </section>`;
 
 
-export function setupRegister(nav) {
-    nav.registerForm('registerForm', onSubmit);
+export function setupRegister() {
     return showRegister;
 
     function showRegister() {
         return registerTemplate();
     }
+}
 
-    async function onSubmit(data) {
-        if (data.password != data.rePass) {
-            return alert('Passwords don\'t match');
-        }
+export async function onRegisterSubmit(data, onSuccess) {
+    if (data.password != data.rePass) {
+        return alert('Passwords don\'t match');
+    }
 
-        try {
-            await regster(data.email, data.password);
-            nav.setUserNav();
-            nav.goTo('catalog');
-        } catch (err) {
-            alert(err.message);
-        }
+    try {
+        await regster(data.email, data.password);
+        onSuccess();
+    } catch (err) {
+        alert(err.message);
     }
 }
